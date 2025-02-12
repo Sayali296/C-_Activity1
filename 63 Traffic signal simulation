@@ -1,0 +1,45 @@
+#include <iostream>
+using namespace std;
+
+// Traffic Signal Class
+class TrafficSignal {
+    int signal_Id;
+    string state;
+public:
+    // Parameterized constructor to initialize signal_Id
+    TrafficSignal(int id) : signal_Id(id), state("Red") {}
+
+    // Method to update and display the state of the signal
+    void updateState() {
+        if (state == "Red") state = "Green";
+        else if (state == "Green") state = "Yellow";
+        else if (state == "Yellow") state = "Red";
+
+        // Display the current state of the signal
+        cout << "Signal ID: " << signal_Id << " - State: " << state << endl;
+    }
+
+    // Method to simulate a delay
+    void delay() {
+        for (long int i = 0; i < 100000000; i++); // Simple delay loop
+    }
+};
+
+int main() {
+    const int numSignals = 3;
+    TrafficSignal signals[numSignals] = { TrafficSignal(1), TrafficSignal(2), TrafficSignal(3) };
+
+    cout << "=== Traffic Signal Simulation ===" << endl;
+
+    // Loop to simulate traffic signal changes
+    while (true) {
+        for (int i = 0; i < numSignals; i++) {
+            signals[i].updateState();
+            cout << "------------------------------" << endl;
+            signals[i].delay(); // Simulate delay between state changes
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
