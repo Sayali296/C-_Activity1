@@ -1,0 +1,49 @@
+#include <iostream>
+
+using namespace std;
+
+class Account {
+private:
+    int accountId;
+    int balance;
+
+public:
+    Account() {
+        accountId = 0;
+        balance = 0;
+    }
+
+    void inputAccountDetails() {
+        cout << "Enter Account ID: ";
+        cin >> accountId;
+        cout << "Enter Account Balance: ";
+        cin >> balance;
+    }
+
+    void displayAccountDetails() const {
+        cout << "Account ID: " << accountId << endl;
+        cout << "Balance: " << balance << endl;
+    }
+};
+
+int main() {
+    int numAccounts;
+
+    cout << "Enter the number of accounts: ";
+    cin >> numAccounts;
+
+    Account accounts[10]; 
+    
+    for (int i = 0; i < numAccounts; ++i) {
+        cout << "\nEnter details for Account " << i + 1 << ":\n";
+        accounts[i].inputAccountDetails();
+    }
+
+    cout << "\nAccount details:\n";
+    for (int i = 0; i < numAccounts; ++i) {
+        cout << "\nAccount " << i + 1 << " details:\n";
+        accounts[i].displayAccountDetails();
+    }
+
+    return 0;
+}
