@@ -1,0 +1,122 @@
+Sure! Below is a simple C++ Employee Payroll System that allows you to add employees, calculate their salary based on basic pay, and display payroll details.
+
+
+---
+
+Features of the Program:
+
+1. Stores employee details such as ID, name, designation, and basic salary.
+
+
+2. Calculates gross salary (Basic Pay + HRA + DA).
+
+
+3. Displays payroll details of all employees.
+
+
+
+
+---
+
+C++ Code for Employee Payroll System
+
+#include <iostream>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+
+// Employee Class
+class Employee {
+private:
+    int empID;
+    string name;
+    string designation;
+    double basicSalary;
+    double hra, da, grossSalary;
+
+public:
+    // Constructor
+    Employee(int id, string n, string d, double salary) {
+        empID = id;
+        name = n;
+        designation = d;
+        basicSalary = salary;
+        calculateSalary();
+    }
+
+    // Function to calculate gross salary
+    void calculateSalary() {
+        hra = 0.20 * basicSalary;  // HRA is 20% of basic salary
+        da = 0.10 * basicSalary;   // DA is 10% of basic salary
+        grossSalary = basicSalary + hra + da;
+    }
+
+    // Function to display employee payroll details
+    void displayPayroll() {
+        cout << setw(5) << empID << setw(15) << name << setw(15) << designation 
+             << setw(12) << basicSalary << setw(10) << hra << setw(10) << da 
+             << setw(12) << grossSalary << endl;
+    }
+};
+
+// Main Function
+int main() {
+    vector<Employee> employees;
+    int choice;
+
+    do {
+        cout << "\n===== Employee Payroll System =====\n";
+        cout << "1. Add Employee\n";
+        cout << "2. Display Payroll\n";
+        cout << "3. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: {
+                int id;
+                string name, designation;
+                double salary;
+                
+                cout << "Enter Employee ID: ";
+                cin >> id;
+                cin.ignore();
+                cout << "Enter Name: ";
+                getline(cin, name);
+                cout << "Enter Designation: ";
+                getline(cin, designation);
+                cout << "Enter Basic Salary: ";
+                cin >> salary;
+
+                employees.push_back(Employee(id, name, designation, salary));
+                cout << "Employee added successfully!\n";
+                break;
+            }
+
+            case 2:
+                if (employees.empty()) {
+                    cout << "No employees to display!\n";
+                } else {
+                    cout << "\nEmployee Payroll Details:\n";
+                    cout << setw(5) << "ID" << setw(15) << "Name" << setw(15) << "Designation"
+                         << setw(12) << "Basic Pay" << setw(10) << "HRA" << setw(10) << "DA" 
+                         << setw(12) << "Gross Pay" << endl;
+                    cout << "----------------------------------------------------------------------------\n";
+                    for (auto &emp : employees) {
+                        emp.displayPayroll();
+                    }
+                }
+                break;
+
+            case 3:
+                cout << "Exiting program...\n";
+                break;
+
+            default:
+                cout << "Invalid choice! Please try again.\n";
+        }
+    } while (choice != 3);
+
+    return 0;
+}
