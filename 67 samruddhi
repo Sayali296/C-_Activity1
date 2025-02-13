@@ -1,0 +1,35 @@
+#include <iostream>
+#include <chrono>
+#include <thread>
+
+using namespace std;
+
+// Function to simulate traffic signal
+void trafficSignal()
+{
+    while (true)
+    {
+        // Red Light
+        cout << "\033[2J\033[1;1H";  // Clears the console (works on Linux/Mac)
+        cout << "Traffic Signal: RED (Stop)\n";
+        this_thread::sleep_for(chrono::seconds(5));
+
+        // Green Light
+        cout << "\033[2J\033[1;1H";
+        cout << "Traffic Signal: GREEN (Go)\n";
+        this_thread::sleep_for(chrono::seconds(5));
+
+        // Yellow Light
+        cout << "\033[2J\033[1;1H";
+        cout << "Traffic Signal: YELLOW (Slow Down)\n";
+        this_thread::sleep_for(chrono::seconds(2));
+    }
+}
+
+// Main function
+int main()
+{
+    cout << "Starting Traffic Signal Simulation...\n";
+    trafficSignal();
+    return 0;
+}
