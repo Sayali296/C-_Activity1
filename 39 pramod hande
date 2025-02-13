@@ -1,0 +1,128 @@
+
+
+#include <iostream>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+
+class Product {
+public:
+    int id;
+    string name;
+    double price;
+
+    Product(int pid, string pname, double pprice) {
+        id = pid;
+        name = pname;
+        price = pprice;
+    }
+};
+
+class ShoppingCart {
+private:
+    vector<Product> cart;
+    double total;
+
+public:
+    ShoppingCart() {
+        total = 0.0;
+    }
+
+    void addProduct(Product p) {
+        cart.push_back(p);
+        total += p.price;
+        cout << p.name << " added to cart.\n";
+    }
+
+    void viewCart() {
+        if (cart.empty()) {
+            cout << "Your cart is empty.\n";
+            return;
+        }
+        cout << "\nItems in your cart:\n";
+        cout << "-----------------------------------\n";
+        cout << setw(5) << "ID" << setw(15) << "Product" << setw(10) << "Price\n";
+        cout << "-----------------------------------\n";
+        for (const auto &p : cart) {
+            cout << setw(5) << p.id << setw(15) << p.name << setw(10) << p.price << "\n";
+        }
+        cout << "-----------------------------------\n";
+        cout << "Total: $" << total << "\n";
+    }
+
+    void checkout() {
+        if (cart.empty()) {
+            cout << "Your cart is empty. Add items before checkout.\n";
+            return;
+        }
+        cout << "\nFinalizing Order...\n";
+        viewCart();
+        cout << "Thank you for shopping with us!\n";
+        cart.clear();
+        total = 0.0;
+    }
+};
+
+void displayProducts(vector<Product> &products) {
+    cout << "\nAvailable Products:\n";
+    cout << "-----------------------------------\n";
+    cout << setw(5) << "ID" << setw(15) << "Product" << setw(10) << "Price\n";
+    cout << "-----------------------------------\n";
+    for (const auto &p : products) {
+        cout << setw(5) << p.id << setw(15) << p.name << setw(10) << p.price << "\n";
+    }
+    cout << "-----------------------------------\n";
+}
+
+int main() {
+    vector<Product> products = {
+        {1, "Laptop", 800.00},
+        {2, "Smartphone", 500.00},
+        {3, "Headphones", 50.00},
+        {4, "Keyboard", 30.00},
+        {5, "Mouse", 25.00}
+    };
+
+    ShoppingCart cart;
+    int choice, id;
+    
+    while (true) {
+        cout << "\nOnline Shopping System\n";
+        cout << "1. View Products\n";
+        cout << "2. Add to Cart\n";
+        cout << "3. View Cart\n";
+        cout << "4. Checkout\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                displayProducts(products);
+                break;
+            case 2:
+                cout << "Enter Product ID to add to cart: ";
+                cin >> id;
+                if (id >= 1 && id <= products.size()) {
+                    cart.addProduct(products[id - 1]);
+                } else {
+                    cout << "Invalid Product ID!\n";
+                }
+                break;
+            case 3:
+                cart.viewCart();
+                break;
+            case 4:
+                cart.checkout();
+                break;
+            case 5:
+                cout << "Exiting the system. Thank you for visiting!\n";
+                return 0;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    }
+
+    return 0;
+}
