@@ -1,0 +1,61 @@
+#include <iostream>
+using namespace std;
+
+class Account {
+private:
+    int accountId;
+    double balance;
+    string customerName;
+
+public:
+    // Constructor with default values
+    Account(int id = 0, double bal = 0.0, string name = "Unknown") {
+        accountId = id;
+        balance = bal;
+        customerName = name;
+    }
+
+    // Function to take input for account details
+    void inputAccount() {
+        cout << "Enter Account ID: ";
+        cin >> accountId;
+
+        cout << "Enter Customer Name: ";
+        cin.ignore(); // Ignore leftover newline
+        getline(cin, customerName);
+
+        cout << "Enter Initial Balance: ";
+        cin >> balance;
+    }
+
+    // Function to display account details
+    void displayAccount() {
+        cout << "\nAccount ID: " << accountId << "\n";
+        cout << "Customer Name: " << customerName << "\n";
+        cout << "Balance: $" << balance << "\n";
+        cout << "-----------------------------\n";
+    }
+};
+
+int main() {
+    int n;
+    cout << "Enter number of accounts: ";
+    cin >> n;
+
+    Account accounts[n]; // Array of Account objects
+
+    // Taking input for all accounts
+    for (int i = 0; i < n; i++) {
+        cout << "\nEnter details for Account " << i + 1 << ":\n";
+        accounts[i].inputAccount();
+    }
+
+    // Displaying account details
+    cout << "\nBank Account Details:\n";
+    cout << "=====================\n";
+    for (int i = 0; i < n; i++) {
+        accounts[i].displayAccount();
+    }
+
+    return 0;
+}
