@@ -1,0 +1,68 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Expense {
+public:
+    int expenseId;
+    double amount;
+    string description;
+
+    // Constructor with default values
+    Expense() {
+        expenseId = 0;
+        amount = 0.0;
+        description = "No description";
+    }
+
+    // Constructor with user input values
+    Expense(int id, double amt, string desc) {
+        expenseId = id;
+        amount = amt;
+        description = desc;
+    }
+
+    // Display method
+    void displayExpense() {
+        cout << "Expense ID: " << expenseId << endl;
+        cout << "Amount: $" << amount << endl;
+        cout << "Description: " << description << endl;
+        cout << "------------------------" << endl;
+    }
+};
+
+int main() {
+    int n;
+
+    cout << "Enter number of expenses to record: ";
+    cin >> n;
+    cin.ignore(); // To handle newline character after integer input
+
+    Expense expenses[n]; // Array of Expense objects
+
+    for (int i = 0; i < n; i++) {
+        int id;
+        double amt;
+        string desc;
+
+        cout << "\nEnter details for Expense " << (i + 1) << ":" << endl;
+        cout << "Expense ID: ";
+        cin >> id;
+        cout << "Amount: ";
+        cin >> amt;
+        cin.ignore(); // Handle newline before getting description
+        cout << "Description: ";
+        getline(cin, desc);
+
+        // Assign user inputs to an Expense object
+        expenses[i] = Expense(id, amt, desc);
+    }
+
+    // Display all expenses
+    cout << "\n--- Expense List ---" << endl;
+    for (int i = 0; i < n; i++) {
+        expenses[i].displayExpense();
+    }
+
+    return 0;
+}
