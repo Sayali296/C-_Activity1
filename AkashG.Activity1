@@ -1,0 +1,69 @@
+#include <iostream> 
+#include <cstring> 
+using namespace std; 
+ 
+class Product { 
+private: 
+    char name[50]; 
+    double price; 
+    int quantity; 
+ 
+public: 
+    // Constructor 
+    Product(const char* n = "", double p = 0.0, int q = 0) { 
+        strcpy(name, n); 
+        price = p; 
+        quantity = q; 
+    } 
+ 
+    // Copy Constructor 
+    Product(const Product &p) { 
+        strcpy(name, p.name); 
+        price = p.price; 
+        quantity = p.quantity; 
+    } 
+ 
+    // Display Product Details 
+    void display() const { 
+        cout << "Product: " << name <<" | Price: $" << price << " | Quantity: " << quantity << 
+endl; 
+    } 
+}; 
+ 
+int main() { 
+    int n; 
+ 
+    cout << "Enter the number of products: "; 
+    cin >> n; 
+ 
+    Product cart[n]; // Array of Product objects 
+ 
+    // Taking user input for products 
+    for (int i = 0; i < n; i++) { 
+        char name[50]; 
+        double price; 
+        int quantity; 
+ 
+        cout << "Enter details for product " << i + 1 << "(Name Price Quantity): "; 
+        cin >> ws; // Clear input buffer 
+        cin.getline(name, 50); 
+        cin >> price >> quantity; 
+ 
+        cart[i] = Product(name, price, quantity); 
+    } 
+ 
+    // Copying the first product using copy constructor 
+    if (n > 0) { 
+        Product copiedProduct = cart[0]; 
+        cout << "\nCopying the first product using copy constructor...\n"; 
+        copiedProduct.display(); 
+    } 
+ 
+    // Display all products 
+    cout << "\nShopping Cart:\n"; 
+    for (int i = 0; i < n; i++) { 
+        cart[i].display(); 
+    } 
+ 
+    return 0; 
+}
