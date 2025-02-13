@@ -1,0 +1,99 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Acc {
+protected:
+    int id;
+    double bal;
+    string type;
+
+public:
+    Acc() {
+        id = 0;
+        bal = 0.0;
+    }
+
+    void input() {
+        cout << "Enter Account ID: ";
+        cin >> id;
+        cout << "Enter Account Type (Savings/Current): ";
+        cin >> type;
+        cout << "Enter Initial Balance: ";
+        cin >> bal;
+    }
+
+    void display() const {
+        cout << "Account ID: " << id << endl;
+        cout << "Account Type: " << type << endl;
+        cout << "Current Balance: " << bal << endl;
+    }
+
+    void dep() {
+        double amt;
+        cout << "Enter Deposit Amount: ";
+        cin >> amt;
+        bal += amt;
+        cout << "Deposit Successful! Updated Balance: " << bal << endl;
+    }
+
+    void wd() {
+        double amt;
+        cout << "Enter Withdrawal Amount: ";
+        cin >> amt;
+        if (amt > bal) {
+            cout << "Insufficient Balance!" << endl;
+        } else {
+            bal -= amt;
+            cout << "Withdrawal Successful! Updated Balance: " << bal << endl;
+        }
+    }
+};
+
+int main() {
+    int n;
+    cout << "Enter Number of Accounts: ";
+    cin >> n;
+
+    Acc accs[10]; 
+    
+    for (int i = 0; i < n; ++i) {
+        cout << "\nEnter Details for Account " << i + 1 << ":\n";
+        accs[i].input();
+    }
+
+    int ch, idx;
+    do {
+        cout << "\nMenu:\n1. View Account Details\n2. Deposit Money\n3. Withdraw Money\n4. Exit\nEnter Your Choice: ";
+        cin >> ch;
+
+        if (ch >= 1 && ch <= 3) {
+            cout << "Enter Account Number (1 to " << n << "): ";
+            cin >> idx;
+            if (idx < 1 || idx > n) {
+                cout << "Invalid Account Number!\n";
+                continue;
+            }
+        }
+
+        switch (ch) {
+            case 1:
+                accs[idx - 1].display();
+                break;
+            case 2:
+                accs[idx - 1].dep();
+                break;
+            case 3:
+                accs[idx - 1].wd();
+                break;
+            case 4:
+                cout << "Thank You for Using Our Banking System. Exiting...\n";
+                break;
+            default:
+                cout << "Invalid Choice! Please Try Again.\n";
+        }
+    } while (ch != 4);
+    
+    return 0;
+}
