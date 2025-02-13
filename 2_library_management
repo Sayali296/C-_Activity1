@@ -1,0 +1,72 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Book {
+public:
+    int bookId;
+    string title;
+    string author;
+    bool availability;
+
+    // Constructor
+    Book(int id, string t, string a, bool avail) : bookId(id), title(t), author(a), availability(avail) {}
+
+    // Display method
+    void displayBookDetails() {
+        cout << "ID: " << bookId << ", Title: " << title << ", Author: " << author 
+             << ", Available: " << (availability ? "Yes" : "No") << endl;
+    }
+};
+
+class Library {
+public:
+    Book* books[5];  // Array to hold up to 5 books
+    int bookCount = 0;
+
+    // Add book
+    void addBook(int id, string t, string a, bool avail) {
+        if (bookCount < 5) {
+            books[bookCount++] = new Book(id, t, a, avail);
+        } else {
+            cout << "Library is full!" << endl;
+        }
+    }
+
+    // Display all books
+    void displayBooks() {
+        if (bookCount == 0) {
+            cout << "No books available." << endl;
+        } else {
+            for (int i = 0; i < bookCount; i++) {
+                books[i]->displayBookDetails();
+            }
+        }
+    }
+
+    // Search by book ID
+    void searchByBookId(int id) {
+        for (int i = 0; i < bookCount; i++) {
+            if (books[i]->bookId == id) {
+                books[i]->displayBookDetails();
+                return;
+            }
+        }
+        cout << "Book with ID " << id << " not found." << endl;
+    }
+};
+
+int main() {
+    Library lib;
+
+    lib.addBook(101, "C++ Programming", "Bjarne Stroustrup", true);
+    lib.addBook(102, "Data Structures", "Mark Weiss", false);
+
+    cout << "Library Books:\n";
+    lib.displayBooks();
+
+    cout << "\nSearching for Book with ID 101:\n";
+    lib.searchByBookId(101);
+
+    return 0;
+}
