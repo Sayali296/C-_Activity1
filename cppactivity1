@@ -1,0 +1,146 @@
+#include <iostream>
+
+#include <string>
+
+#include <iomanip>
+
+using namespace std;
+
+
+class Employee {
+
+private:
+
+    string name;
+
+    int id;
+
+    double salary;
+
+    double hoursWorked;
+
+public:
+
+    
+
+    Employee() : name(""), id(0), salary(0.0), hoursWorked(0.0) {}
+
+    
+
+    Employee(string empName, int empId, double empSalary, double empHoursWorked) 
+
+        : name(empName), id(empId), salary(empSalary), hoursWorked(empHoursWorked) {}
+
+    
+
+    Employee(const Employee &other) {
+
+        name = other.name;
+
+        id = other.id;
+
+        salary = other.salary;
+
+        hoursWorked = other.hoursWorked;
+
+    }
+
+    
+
+    void inputDetails() {
+
+        cout << "Enter Employee Name: ";
+
+        cin.ignore();  
+
+        getline(cin, name);
+
+        cout << "Enter Employee ID: ";
+
+        cin >> id;
+
+        cout << "Enter Salary: ";
+
+        cin >> salary;
+
+        cout << "Enter Hours Worked: ";
+
+        cin >> hoursWorked;
+
+    }
+
+    
+
+    void displayDetails() const {
+
+        cout << "Employee Name: " << name << endl;
+
+        cout << "Employee ID: " << id << endl;
+
+        cout << "Salary: $" << fixed << setprecision(2) << salary << endl;
+
+        cout << "Hours Worked: " << hoursWorked << " hours" << endl;
+
+    }
+
+    
+
+    string getName() const { return name; }
+
+    int getId() const { return id; }
+
+    double getSalary() const { return salary; }
+
+    double getHoursWorked() const { return hoursWorked; }
+
+};
+
+int main() {
+
+    int numEmployees;
+
+    cout << "Enter the number of employees: ";
+
+    cin >> numEmployees;
+
+    
+
+    Employee* employees = new Employee[numEmployees];
+
+    
+
+    for (int i = 0; i < numEmployees; ++i) {
+
+        cout << "\nEnter details for Employee " << i + 1 << ":\n";
+
+        employees[i].inputDetails();
+
+    }
+
+    
+
+    cout << "\nEmployee Details:\n";
+
+    for (int i = 0; i < numEmployees; ++i) {
+
+        cout << "\nDetails for Employee " << i + 1 << ":\n";
+
+        employees[i].displayDetails();
+
+    }
+
+    
+
+    Employee duplicatedEmployee = employees[0]; 
+
+    cout << "\nDuplicated Employee Details:\n";
+
+    duplicatedEmployee.displayDetails();
+
+    
+
+    delete[] employees;
+
+    return 0;
+
+}
