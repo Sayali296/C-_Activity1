@@ -1,0 +1,62 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <chrono>
+#include <thread>
+
+using namespace std;
+
+// Traffic Signal class
+class TrafficSignal {
+public:
+    int signal_Id;
+    string state; // "GREEN", "YELLOW", "RED"
+
+    // Parameterized constructor
+    TrafficSignal(int id) : signal_Id(id), state("RED") {} // Initially all signals are RED
+
+    void setState(string newState) {
+        state = newState;
+    }
+
+    void display() const {
+        cout << "Signal ID: " << signal_Id << ", State: " << state << endl;
+    }
+};
+
+int main() {
+    // Create an array (vector) of Traffic Signal objects
+    vector<TrafficSignal> signals;
+    int numSignals;
+
+    cout << "Enter the number of traffic signals: ";
+    cin >> numSignals;
+
+    for (int i = 1; i <= numSignals; ++i) {
+        signals.push_back(TrafficSignal(i)); // Initialize with signal IDs
+    }
+
+    while (true) {  // Simulation loop (runs indefinitely)
+
+        for (int i = 0; i < signals.size(); ++i) {
+            // Simple signal logic (you can make this more complex)
+            if (signals[i].state == "RED") {
+                signals[i].setState("GREEN");
+            } else if (signals[i].state == "GREEN") {
+                signals[i].setState("YELLOW");
+            } else if (signals[i].state == "YELLOW") {
+                signals[i].setState("RED");
+            }
+
+            // Display the current state of all signals
+            for (const auto& signal : signals) {
+                signal.display();
+            }
+            cout << endl; // Add a separator
+
+            this_thread::sleep_for(chrono::seconds(2)); // Pause for 2 seconds (adjust as needed)
+        }
+    }
+
+    return 0;
+}
