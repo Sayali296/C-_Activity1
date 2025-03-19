@@ -1,0 +1,82 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Employee Class
+class Employee {
+private:
+    int id;
+    string name;
+    double salary;
+    double deductions;
+
+public:
+    // Constructor
+    Employee(int emp_id, string emp_name, double emp_salary, double emp_deductions) {
+        id = emp_id;
+        name = emp_name;
+        salary = emp_salary;
+        deductions = emp_deductions;
+    }
+
+    // Calculate Net Salary
+    double getNetSalary() {
+        return salary - deductions;
+    }
+
+    // Display Employee Details
+    void displayDetails() {
+        cout << "\nEmployee ID: " << id;
+        cout << "\nName: " << name;
+        cout << "\nBasic Salary: Rs." << salary;
+        cout << "\nDeductions: Rs." << deductions;
+        cout << "\nNet Salary: Rs." << getNetSalary();
+        cout << "\n-----------------------------\n";
+    }
+};
+
+int main() {
+    vector<Employee> employees;
+    int choice;
+
+    do {
+        cout << "\nEmployee Payroll System";
+        cout << "\n1. Add Employee";
+        cout << "\n2. Show Payroll";
+        cout << "\n3. Exit";
+        cout << "\nEnter choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            int id;
+            string name;
+            double salary, deductions;
+
+            cout << "Enter Employee ID: ";
+            cin >> id;
+            cin.ignore();
+            cout << "Enter Name: ";
+            getline(cin, name);
+            cout << "Enter Basic Salary: ";
+            cin >> salary;
+            cout << "Enter Deductions: ";
+            cin >> deductions;
+
+            employees.push_back(Employee(id, name, salary, deductions));
+            cout << "Employee Added Successfully!\n";
+        } 
+        else if (choice == 2) {
+            if (employees.empty()) {
+                cout << "No Employee Records Found!\n";
+            } else {
+                cout << "\n--- Employee Payroll Details ---\n";
+                for (Employee &emp : employees) {
+                    emp.displayDetails();
+                }
+            }
+        }
+    } while (choice != 3);
+
+    cout << "Exiting Payroll System...\n";
+    return 0;
+}
