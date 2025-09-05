@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Grading System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <!-- Main responsive container -->
+  <div class="container mx-auto px-4 mt-10">
+    <div class="max-w-4xl mx-auto bg-white p-6 shadow-lg rounded-lg">
+      <h2 class="text-2xl font-semibold text-center">📚 Student Grading System</h2>
+      
+      <!-- Student Form -->
+      <form id="studentForm" class="mt-6">
+        <div class="mb-4">
+          <label class="block text-gray-700">Student Name:</label>
+          <input
+            type="text"
+            id="name"
+            class="w-full p-2 border rounded-lg"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Marks (0-100):</label>
+          <input
+            type="number"
+            id="marks"
+            class="w-full p-2 border rounded-lg"
+            min="0"
+            max="100"
+            required
+          />
+        </div>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">
+          Add Student
+        </button>
+      </form>
+
+      <!-- Student Table -->
+      <div class="mt-6">
+        <h3 class="text-xl font-semibold">🎓 Student Records</h3>
+        <!-- Responsive table container -->
+        <div class="overflow-x-auto mt-3">
+          <table class="min-w-full border border-gray-300">
+            <thead class="bg-gray-200">
+              <tr>
+                <th class="border p-2">ID</th>
+                <th class="border p-2">Name</th>
+                <th class="border p-2">Marks</th>
+                <th class="border p-2">Grade</th>
+              </tr>
+            </thead>
+            <tbody id="studentTableBody">
+              <!-- Students will be added here dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Export to CSV Button -->
+      <button
+        onclick="exportToCSV()"
+        class="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg"
+      >
+        📂 Export CSV
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let studentIdCounter = localStorage.getItem("studentIdCounter")
+      ? parseInt(localStorage.getItem("studentIdCounter"))
+      : 1;
+    let students = JSON.parse(localStorage.getItem("students")) || [];
+
+    function calculateGrade(marks) {
+      if (marks >= 90) return 'A';
+      if (marks >= 80) return 'B';
+      if (marks >= 70) return 'C';
+      if (marks >= 60) return 'D';
+      return 'F';
+    }
+
+    function updateTable() {
+      const tableBody = document.getElementById("studentTableBody");
+      tableBody.innerHTML = "";
+      students.forEach(student => {
+        const row = tableBody.insertRow();
+        row.innerHTML = `
+          <td class="border p-2">${student.id}</td>
+          <td class="border p-2">${student.name}</td>
+          <td class="border p-2">${student.marks}</td>
+          <td class="border p-2">${student.grade}</td>`;
+      });
+    }
+
+    document.getElementById("studentForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const marks = parseFloat(document.getElementById("marks").value);
+
+      if (name === "" || isNaN(marks) || marks < 0 || marks > 100) {
+        alert("❌ Invalid input. Try again.");
+        return;
+      }
+
+      const grade = calculateGrade(marks);
+      students.push({ id: studentIdCounter++, name, marks, grade });
+
+      localStorage.setItem("students", JSON.stringify(students));
+      localStorage.setItem("studentIdCounter", studentIdCounter);
+      updateTable();
+      document.getElementById("studentForm").reset();
+    });
+
+    function exportToCSV() {
+      let csv = "ID,Name,Marks,Grade\n";
+      students.forEach(student => {
+        csv += `${student.id},${student.name},${student.marks},${student.grade}\n`;
+      });
+
+      const blob = new Blob([csv], { type: "text/csv" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "students.csv";
+      a.click();
+    }
+
+    updateTable();
+  </script>
+</body>
+</html>
